@@ -539,14 +539,18 @@ document.addEventListener('click', async (e) => {
   }
 });
 /* ---------------- Live search ---------------- */
-(function setupLiveSearchStartsWith() {
+/* ---------------- Live search ---------------- */
+function setupLiveSearchStartsWith() {
   let searchInput = document.querySelector('.search-bar');
+  const mains = document.querySelector('.mains');
+
   if (!searchInput || searchInput.tagName !== 'INPUT') {
     searchInput = document.createElement('input');
     searchInput.id = 'liveSearch';
     searchInput.placeholder = 'Type first letters (e.g. "e")...';
     searchInput.autocomplete = 'off';
-    searchInput.style.cssText = 'width:100%;max-width:420px;padding:8px 12px;margin:12px 0;border-radius:6px;border:1px solid #ddd;font-size:15px';
+    searchInput.style.cssText =
+      'width:100%;max-width:420px;padding:8px 12px;margin:12px 0;border-radius:6px;border:1px solid #ddd;font-size:15px';
     const parent = document.querySelector('.js-food')?.parentElement || document.body;
     parent.insertBefore(searchInput, document.querySelector('.js-food'));
   }
@@ -558,8 +562,11 @@ document.addEventListener('click', async (e) => {
     noResults.textContent = 'No items match your search.';
     noResults.style.cssText = 'display:none;color:#666;margin:8px 0;';
     const foodList = document.querySelector('.js-food');
-    if (foodList && foodList.parentNode) foodList.parentNode.insertBefore(noResults, foodList.nextSibling);
-    else document.body.appendChild(noResults);
+    if (foodList && foodList.parentNode) {
+      foodList.parentNode.insertBefore(noResults, foodList.nextSibling);
+    } else {
+      document.body.appendChild(noResults);
+    }
   }
 
   function debounce(fn, delay = 120) {
@@ -570,29 +577,52 @@ document.addEventListener('click', async (e) => {
     };
   }
 
-
-
-
-
   const filterFn = () => {
     const q = (searchInput.value || '').trim().toLowerCase();
     const cards = document.querySelectorAll('.product-containers');
     let visible = 0;
 
+    if (mains) {
+      const isSmallScreen = window.innerWidth <= 320;
+
+      if (q && isSmallScreen) {
+        mains.style.marginTop = '140px';
+    
+      } else {
+        mains.style.marginTop = '';
+        mains.style.marginLeft = '';
+      }
+    }
+
     cards.forEach(card => {
       const name = (card.querySelector('.product-names')?.textContent || '').trim().toLowerCase();
-      if (!q) { card.style.display = ''; visible++; return; }
+
+      if (!q) {
+        card.style.display = '';
+        visible++;
+        return;
+      }
+
       const match = name.startsWith(q);
       card.style.display = match ? '' : 'none';
       if (match) visible++;
     });
+
     noResults.style.display = visible ? 'none' : '';
   };
 
   filterFn();
   searchInput.addEventListener('input', debounce(filterFn, 120));
-})();
 
+  window.addEventListener('resize', () => {
+    if (!searchInput.value.trim() && mains) {
+      mains.style.marginTop = '';
+      mains.style.marginLeft = '';
+    }
+  });
+}
+
+setupLiveSearchStartsWith();
 /* ---------------- details toggles ---------------- */
 document.querySelectorAll('.inside').forEach((of)=>{
   of.addEventListener('click', ()=>{
