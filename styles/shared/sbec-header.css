@@ -60,8 +60,8 @@ margin-bottom: 30px;
 .sbec-header-middle-section {
   flex: 1;
   max-width: 850px;
-  margin-left: 10px;
-  margin-right: 10px;
+
+
   display: flex;
 }
 
@@ -70,7 +70,7 @@ margin-bottom: 30px;
   flex: 1;
   width: 0;
   font-size: 16px;
-  height: 36px;
+
   padding-left: 25px;
   border: none;
   border-top-left-radius: 40px;
@@ -79,7 +79,6 @@ margin-bottom: 30px;
   border-bottom-right-radius: 40px;
   background-color: black;
   color: white;
- margin-right: 15px;
 }
 
 .search-button {
@@ -91,7 +90,7 @@ margin-top: 0px;
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;
   flex-shrink: 0;
-  margin-left: -75px;
+  margin-left: -60px;
   background-color: rgb(119, 118, 118);
 }.search-button:active {
   opacity: 0.5;
@@ -326,8 +325,53 @@ padding-top: 0;
   }.spans{
     font-size: 13.5px;
   }
+}@media(max-width: 425px){
+  .logo{
+ margin-right: 30px;
+scale: 1.1;
+
+  }.search-button{
+   width: 75px;
+   height: 45px;
+ margin-right: 10px;
+  }.search-bar{
+
+    width: 2px;
+   
+  }
 }
 
+@media(max-width: 375px){
+  .logo{
+ margin-right: 10px;
+
+  }.search-button{
+   height: 45px;
+   width:60px
+  }.search-bar{
+
+    width: 32px;
+   
+  }.cart-texts{
+    margin-right: 10px;
+  }
+}
+
+@media(max-width: 320px){
+  .logo{
+  margin-right: -20px;
+  scale: 0.8;
+  }.search-button{
+   height: 40px;
+   width:60px
+  }.search-bar{
+
+    width: 32px;
+   
+  }.cart-texts{
+    margin-right: 8px;
+  }
+}
 
 .alls{
   background-color: #eeeeee;
