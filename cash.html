@@ -7,7 +7,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <body>
-<a href="sbec.html" class="button"><button>Go Back</button></a>
+<a href="sbec.html" class="button"><button>Back</button></a>
 
 <div class="main-h"><div class="title">Cash-Transfer-System</div></div>
 <div class="main-con"><div class="container"><div class="user-email">
@@ -18,7 +18,7 @@
 <div class="containe"><div class="user-money">
   <div class="money-text">Amount of money</div>
   <div><input type="number" id="money" min="1" placeholder="money"></div>
-  <button id="send" class="send">Send Money</button></div>
+  <button id="send" class="send" style="box-shadow: 0px 0px 25px rgb(255, 255, 255);">Send</button></div>
 
 </div>
 </div>
@@ -41,6 +41,56 @@
   </div>
 
 <script type="module" src="java/cash.js"></script>
+<script type="module" >
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  setDoc,
+  query,
+  where,
+  updateDoc,
+increment,
+  
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAgcibxEec8dwJb4TZuQrmeoUM3pjylrBk",
+  authDomain: "food-canteen-app-77e31.firebaseapp.com",
+  projectId: "food-canteen-app-77e31"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const stores = getFirestore(app);
+
+
+
+
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const userDocRef = doc(stores, 'users', user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      document.body.style.display = "block";
+      
+      const cart = userDoc.data().cart;
+      if (typeof display === "function") display(cart);
+    } else {
+      window.location.href = 'adminlogin.html';
+    }
+  } else {
+ 
+    window.location.href = 'login.html';
+  }
+});
+</script>
   </body>
 </html>
